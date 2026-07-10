@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="数字带通通信系统交互式教学演示">
+  <title>BandpassLab · 数字带通通信教学演示</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body><main class="shell">
+  <header class="topbar"><div class="brand"><span class="logo"><i></i><i></i><i></i></span>Bandpass<span>Lab</span></div><div class="online"><i></i>概念仿真 · 实时更新</div></header>
+  <section class="hero"><div><p>DIGITAL COMMUNICATIONS PLAYGROUND</p><h1>看见信号如何<br><em>承载信息</em></h1><small>配置发送端、传播信道与接收端，在同一张实验台上理解数字通信链路。</small></div><aside><span>当前实验</span><strong id="experiment">FHSS + QPSK</strong><small>参数变化会立即更新教学信号</small></aside></section>
+  <section class="lab">
+    <aside class="panel controls">
+      <div class="title"><b>01</b><div><h2>实验参数</h2><p>配置发送端与传播环境</p></div></div>
+      <label>调制方式<select id="modulation"><option>2ASK</option><option>2FSK</option><option>BPSK</option><option selected>QPSK</option><option>16QAM</option><option>MSK</option><option>OFDM</option></select></label>
+      <label>传输体制<select id="scheme"><option>常规传输</option><option>直接序列扩频</option><option selected>跳频传输</option><option>OFDM 多载波</option></select></label>
+      <label>信道模型<select id="channel"><option>AWGN</option><option>瑞利衰落</option><option>莱斯衰落</option><option>多径信道</option></select></label>
+      <div class="range-head"><span>符号速率</span><output id="rateValue">250 kBd</output></div><input id="rate" type="range" min="50" max="1000" step="50" value="250">
+      <div class="range-head"><span>信噪比</span><output id="snrValue">18 dB</output></div><input id="snr" type="range" min="0" max="30" value="18">
+      <div class="bits"><span>比特流</span><code>1 0 1 1 0 0 1 0</code></div>
+    </aside>
+    <section class="panel visual">
+      <div class="visual-head"><div class="tabs"><button class="active" data-view="wave">时域波形</button><button data-view="spectrum">频谱</button><button data-view="constellation">星座图</button></div><span id="axis">幅度 / 时间</span></div>
+      <div class="canvas-wrap"><canvas id="canvas" aria-label="信号可视化"></canvas><div class="badge" id="plotLabel">QPSK · SNR 18 dB</div></div>
+      <div class="metrics"><article><span>比特率</span><strong id="bitrate">500</strong><small>kbps</small></article><article><span>估计带宽</span><strong id="bandwidth">302</strong><small>kHz</small></article><article><span>每符号比特</span><strong id="bps">2</strong><small>bit/sym</small></article><article><span>扩展规模</span><strong id="scale">16 信道</strong><small>教学值</small></article></div>
+    </section>
+  </section>
+  <section class="panel block">
+    <div class="title"><b>02</b><div><h2>发送端 — 信道 — 接收端</h2><p>点击模块查看当前链路中的作用</p></div></div>
+    <div class="chain" id="chain"></div>
+    <div class="stage-detail"><div><span>当前模块</span><strong id="stageName">数据源</strong></div><p id="stageText">生成 0/1 比特流，后续可扩展文本、图像或文件输入。</p><code id="path">TX → FHSS → AWGN → RX</code></div>
+    <div class="rx"><article><span>估计 BER</span><strong id="ber">1.75e-13</strong><small>教学近似值</small></article><article><span>接收 EVM</span><strong id="evm">12.6%</strong><small id="evmText">噪声影响明显</small></article><article><span>同步状态</span><strong class="locked">LOCKED</strong><small>定时 / 载波</small></article><article><span>恢复速率</span><strong id="rxRate">500</strong><small>kbps</small></article></div>
+  </section>
+  <section class="panel block">
+    <div class="title"><b>03</b><div><h2>此刻发生了什么？</h2><p>把图形变化连接到通信原理</p></div></div>
+    <div class="lessons"><article><span>A</span><h3 id="modTitle">QPSK</h3><p id="modText"></p></article><article><span>B</span><h3 id="schemeTitle">跳频传输</h3><p id="schemeText"></p></article><article><span>ƒ</span><h3>关键关系</h3><p class="formula">R<sub>b</sub> = R<sub>s</sub> · log<sub>2</sub>M</p><small id="formula"></small></article></div>
+  </section>
+  <section class="panel block code-grid">
+    <div class="intro"><div class="title"><b>04</b><div><h2>MATLAB 对照代码</h2><p>随当前参数同步变化</p></div></div><p>逐段展开，对照发送、信道和接收过程。代码作为清晰可扩展的教学骨架。</p><div id="tags" class="tags"></div></div>
+    <div class="accordion"><details open><summary><span>01</span>参数与发送端<i>⌄</i></summary><pre><code id="txCode"></code></pre></details><details><summary><span>02</span>信道模型<i>⌄</i></summary><pre><code id="chCode"></code></pre></details><details><summary><span>03</span>接收、解调与评价<i>⌄</i></summary><pre><code id="rxCode"></code></pre></details></div>
+  </section>
+  <footer><span>BandpassLab · 数字带通通信教学原型</span><span>发送端 · 信道 · 接收端 · MATLAB 对照</span></footer>
+</main><script src="./app.js"></script></body></html>
